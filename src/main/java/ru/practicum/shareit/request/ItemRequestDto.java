@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.common.Model;
 import ru.practicum.shareit.user.User;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ItemRequest implements Model {
+public class ItemRequestDto {
 
     private final long id;
     private final String description;

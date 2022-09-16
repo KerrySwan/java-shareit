@@ -1,25 +1,26 @@
-package ru.practicum.shareit.request;
+package ru.practicum.shareit.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.shareit.common.Model;
+import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.User;
 
-import java.time.LocalDateTime;
-
 /**
- * TODO Sprint add-item-requests.
+ * TODO Sprint add-controllers.
  */
 @AllArgsConstructor
 @Getter
 @Setter
-public class ItemRequest implements Model {
+public class Item implements Model {
 
     private final long id;
+    private final String name;
     private final String description;
-    private final User requestor;
-    private final LocalDateTime created;
+    private boolean available;
+    private final User owner;
+    private final ItemRequest request;
 
 }
