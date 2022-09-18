@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.shareit.common.Model;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
