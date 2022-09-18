@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
-
 @RestControllerAdvice
 public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return this.handleExceptionInternal(ex, (Object)null, headers, HttpStatus.BAD_REQUEST, request);
+        return this.handleExceptionInternal(ex, (Object) null, headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(AlreadyExistsException.class)

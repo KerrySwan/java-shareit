@@ -21,28 +21,28 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(value = "/users/{userId}")
-    public UserDto get(@PathVariable(name = "userId") @Positive long id){
+    public UserDto get(@PathVariable(name = "userId") @Positive long id) {
         return userService.getUser(id);
     }
 
     @GetMapping(value = "/users")
-    public List<UserDto> getAll(){
+    public List<UserDto> getAll() {
         return userService.getUsers();
     }
 
     @PostMapping(path = "/users")
-    public UserDto create(@RequestBody @Valid UserDto userDto){
+    public UserDto create(@RequestBody @Valid UserDto userDto) {
         return userService.addUser(userDto);
     }
 
     @PatchMapping(value = "/users/{userId}")
-    public UserDto patch(@PathVariable(name = "userId") @Positive long id, @RequestBody UserDto userDto){
+    public UserDto patch(@PathVariable(name = "userId") @Positive long id, @RequestBody UserDto userDto) {
         userDto.setId(id);
         return userService.updateUser(userDto);
     }
 
     @DeleteMapping(path = "/users/{userId}")
-    public void delete(@PathVariable(name = "userId") @Positive long id){
+    public void delete(@PathVariable(name = "userId") @Positive long id) {
         userService.deleteUser(id);
     }
 

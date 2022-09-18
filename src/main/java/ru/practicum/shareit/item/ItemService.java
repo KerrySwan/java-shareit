@@ -57,7 +57,7 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<ItemDto> find(String pattern){
+    public List<ItemDto> find(String pattern) {
         List<Item> items = itemStorage.find(pattern);
         return items.stream()
                 .map(itemMapper::toDto)

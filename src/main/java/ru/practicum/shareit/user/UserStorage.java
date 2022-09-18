@@ -6,7 +6,10 @@ import ru.practicum.shareit.common.excepton.AlreadyExistsException;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class UserStorage implements IStorage<User> {
@@ -60,11 +63,11 @@ public class UserStorage implements IStorage<User> {
         }
     }
 
-    private void throwIfUserExist(long id) throws AlreadyExistsException{
+    private void throwIfUserExist(long id) throws AlreadyExistsException {
         if (users.containsKey(id)) throw new AlreadyExistsException("User already exists");
     }
 
-    private void throwIfUserExist(User user) throws AlreadyExistsException{
+    private void throwIfUserExist(User user) throws AlreadyExistsException {
         throwIfUserExist(user.getId());
     }
 

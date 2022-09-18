@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.shareit.common.Model;
@@ -25,7 +24,7 @@ public class Booking implements Model {
     private final User booker;
     private final BookingStatus status;
 
-    public enum BookingStatus{
+    public enum BookingStatus {
         WAITING,
         APPROVED,
         REJECTED,
