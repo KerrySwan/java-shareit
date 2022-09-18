@@ -21,5 +21,4 @@ public class UserDto implements Dto {
     @NotBlank(message = "Email is mandatory")
     private final String email;
 
-
 }

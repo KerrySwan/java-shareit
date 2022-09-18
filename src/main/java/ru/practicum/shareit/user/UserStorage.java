@@ -13,7 +13,7 @@ public class UserStorage implements IStorage<User> {
 
     private Map<Long, User> users = new HashMap<>();
 
-    long currentId;
+    private long currentId;
 
     public long getNextId() {
         return ++currentId;
@@ -53,18 +53,19 @@ public class UserStorage implements IStorage<User> {
         return new ArrayList<>(users.values());
     }
 
+
+    private void throwIfEmailExist(User user) throws AlreadyExistsException {
+        for (User u : users.values()) {
+            if (u.getEmail().equals(user.getEmail())) throw new AlreadyExistsException("Email is already taken");
+        }
+    }
+
     private void throwIfUserExist(long id) throws AlreadyExistsException{
         if (users.containsKey(id)) throw new AlreadyExistsException("User already exists");
     }
 
     private void throwIfUserExist(User user) throws AlreadyExistsException{
         throwIfUserExist(user.getId());
-    }
-
-    private void throwIfEmailExist(User user) throws AlreadyExistsException {
-        for (User u : users.values()) {
-            if (u.getEmail().equals(user.getEmail())) throw new AlreadyExistsException("Email is already taken");;
-        }
     }
 
     private void throwIfUserNotExist(long id) throws DoesNotExistsException {
