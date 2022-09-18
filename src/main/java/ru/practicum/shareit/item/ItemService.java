@@ -43,8 +43,7 @@ public class ItemService {
         return itemMapper.toDto(item);
     }
 
-    public ItemDto getItem(long userId, long itemId) {
-        getUserIfBelongs(userId, itemId);
+    public ItemDto getItem(long itemId) {
         Item item = itemStorage.get(itemId);
         return itemMapper.toDto(item);
     }
