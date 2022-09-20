@@ -3,7 +3,6 @@ package ru.practicum.shareit.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.common.IStorage;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +10,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    private final IStorage<User> userStorage;
+    private final IUserStorage<User> userStorage;
 
     @Autowired
-    public UserService(@Qualifier("userStorage") IStorage<User> userStorage) {
+    public UserService(@Qualifier("userStorage") IUserStorage<User> userStorage) {
         this.userStorage = userStorage;
     }
 

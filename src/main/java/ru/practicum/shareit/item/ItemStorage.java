@@ -1,15 +1,13 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.common.ISearchableStorage;
 import ru.practicum.shareit.common.excepton.AlreadyExistsException;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
 
 import java.util.*;
 
 @Repository
-public class ItemStorage implements ISearchableStorage<Item> {
+public class ItemStorage implements IItemStorage<Item> {
 
     private Map<Long, Item> items = new HashMap<>();
 

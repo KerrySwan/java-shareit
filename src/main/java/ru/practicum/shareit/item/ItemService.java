@@ -3,9 +3,8 @@ package ru.practicum.shareit.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.common.ISearchableStorage;
-import ru.practicum.shareit.common.IStorage;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
+import ru.practicum.shareit.user.IUserStorage;
 import ru.practicum.shareit.user.User;
 
 import java.util.List;
@@ -14,13 +13,13 @@ import java.util.stream.Collectors;
 @Service
 public class ItemService {
 
-    private final ISearchableStorage<Item> itemStorage;
-    private final IStorage<User> userStorage;
+    private final IItemStorage<Item> itemStorage;
+    private final IUserStorage<User> userStorage;
 
 
     @Autowired
-    public ItemService(@Qualifier("itemStorage") ISearchableStorage<Item> itemStorage,
-                       @Qualifier("userStorage") IStorage<User> userStorage) {
+    public ItemService(@Qualifier("itemStorage") IItemStorage<Item> itemStorage,
+                       @Qualifier("userStorage") IUserStorage<User> userStorage) {
         this.itemStorage = itemStorage;
         this.userStorage = userStorage;
     }

@@ -1,8 +1,8 @@
-package ru.practicum.shareit.common;
+package ru.practicum.shareit.user;
 
 import java.util.List;
 
-public interface IStorage<T> {
+public interface IUserStorage<T> {
 
     T add(T t);
 

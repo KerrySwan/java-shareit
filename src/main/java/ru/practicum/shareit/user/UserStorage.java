@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user;
 
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.common.IStorage;
 import ru.practicum.shareit.common.excepton.AlreadyExistsException;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
 
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class UserStorage implements IStorage<User> {
+public class UserStorage implements IUserStorage<User> {
 
     private Map<Long, User> users = new HashMap<>();
 
@@ -79,7 +78,7 @@ public class UserStorage implements IStorage<User> {
         throwIfUserNotExist(user.getId());
     }
 
-    private User updateUser(User user , User updUserData){
+    private User updateUser(User user, User updUserData) {
         if (updUserData.getName() != null) user.setName(updUserData.getName());
         if (updUserData.getEmail() != null) user.setEmail(updUserData.getEmail());
         return user;
