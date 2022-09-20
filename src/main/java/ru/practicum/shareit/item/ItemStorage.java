@@ -80,7 +80,7 @@ public class ItemStorage implements IItemStorage<Item> {
         throwIfItemNotExist(item.getId());
     }
 
-    public Item updateItem(Item item, Item updItemData){
+    public Item updateItem(Item item, Item updItemData) {
         if (updItemData.getName() != null) item.setName(updItemData.getName());
         if (updItemData.getDescription() != null) item.setDescription(updItemData.getDescription());
         if (updItemData.getAvailable() != null) item.setAvailable(updItemData.getAvailable());
