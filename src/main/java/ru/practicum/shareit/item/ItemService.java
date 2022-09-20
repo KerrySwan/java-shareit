@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.common.IMapper;
 import ru.practicum.shareit.common.ISearchableStorage;
 import ru.practicum.shareit.common.IStorage;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
@@ -15,16 +14,13 @@ import java.util.stream.Collectors;
 @Service
 public class ItemService {
 
-    private final IMapper<Item, ItemDto> itemMapper;
     private final ISearchableStorage<Item> itemStorage;
     private final IStorage<User> userStorage;
 
 
     @Autowired
-    public ItemService(@Qualifier("itemMapper") IMapper<Item, ItemDto> itemMapper,
-                       @Qualifier("itemStorage") ISearchableStorage<Item> itemStorage,
+    public ItemService(@Qualifier("itemStorage") ISearchableStorage<Item> itemStorage,
                        @Qualifier("userStorage") IStorage<User> userStorage) {
-        this.itemMapper = itemMapper;
         this.itemStorage = itemStorage;
         this.userStorage = userStorage;
     }
@@ -32,34 +28,34 @@ public class ItemService {
     public ItemDto addItem(long userId, ItemDto itemDto) {
         User user = userStorage.get(userId);
         itemDto.setOwner(user);
-        Item item = itemStorage.add(itemMapper.toModel(itemDto));
-        return itemMapper.toDto(item);
+        Item item = itemStorage.add(ItemMapper.toModel(itemDto));
+        return ItemMapper.toDto(item);
     }
 
     public ItemDto updateItem(long userId, ItemDto itemDto) {
         User user = getUserIfBelongs(userId, itemDto.getId());
         itemDto.setOwner(user);
-        Item item = itemStorage.update(itemMapper.toModel(itemDto));
-        return itemMapper.toDto(item);
+        Item item = itemStorage.update(ItemMapper.toModel(itemDto));
+        return ItemMapper.toDto(item);
     }
 
     public ItemDto getItem(long itemId) {
         Item item = itemStorage.get(itemId);
-        return itemMapper.toDto(item);
+        return ItemMapper.toDto(item);
     }
 
     public List<ItemDto> getAll(long userId) {
         List<Item> items = itemStorage.get();
         return items.stream()
                 .filter(item -> item.getOwner().getId() == userId)
-                .map(itemMapper::toDto)
+                .map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public List<ItemDto> find(String pattern) {
         List<Item> items = itemStorage.find(pattern);
         return items.stream()
-                .map(itemMapper::toDto)
+                .map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }
 

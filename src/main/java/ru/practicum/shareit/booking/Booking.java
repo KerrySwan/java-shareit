@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.common.Model;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.user.User;
 
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Booking implements Model {
+public class Booking {
 
     private final long id;
     private final LocalDateTime start;
@@ -23,12 +22,5 @@ public class Booking implements Model {
     private final Item item;
     private final User booker;
     private final BookingStatus status;
-
-    public enum BookingStatus {
-        WAITING,
-        APPROVED,
-        REJECTED,
-        CANCELED
-    }
 
 }

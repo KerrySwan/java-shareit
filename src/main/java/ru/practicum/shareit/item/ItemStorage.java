@@ -1,18 +1,19 @@
 package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.common.ISearchableStorage;
 import ru.practicum.shareit.common.excepton.AlreadyExistsException;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
 
 import java.util.*;
 
-@Component
+@Repository
 public class ItemStorage implements ISearchableStorage<Item> {
 
-    Map<Long, Item> items = new HashMap<>();
+    private Map<Long, Item> items = new HashMap<>();
 
-    long currentId;
+    private long currentId;
 
     public long getNextId() {
         return ++currentId;
@@ -30,7 +31,7 @@ public class ItemStorage implements ISearchableStorage<Item> {
     public Item update(Item item) {
         long id = item.getId();
         throwIfItemNotExist(id);
-        Item i = get(id).update(item);
+        Item i = updateItem(get(id), item);
         items.put(i.getId(), i);
         return i;
     }
@@ -79,5 +80,14 @@ public class ItemStorage implements ISearchableStorage<Item> {
 
     private void throwIfItemNotExist(Item item) throws DoesNotExistsException {
         throwIfItemNotExist(item.getId());
+    }
+
+    public Item updateItem(Item item, Item updItemData){
+        if (updItemData.getName() != null) item.setName(updItemData.getName());
+        if (updItemData.getDescription() != null) item.setDescription(updItemData.getDescription());
+        if (updItemData.getAvailable() != null) item.setAvailable(updItemData.getAvailable());
+        if (updItemData.getOwner() != null) item.setOwner(updItemData.getOwner());
+        if (updItemData.getRequest() != null) item.setRequest(updItemData.getRequest());
+        return item;
     }
 }

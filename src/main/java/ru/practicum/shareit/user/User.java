@@ -2,13 +2,12 @@ package ru.practicum.shareit.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.common.Model;
 
 import java.util.Objects;
 
 @Getter
 @Setter
-public class User implements Model {
+public class User {
 
     private long id;
     private String name;
@@ -21,12 +20,6 @@ public class User implements Model {
         this.id = id;
         this.name = name;
         this.email = email;
-    }
-
-    public User update(User user) {
-        if (user.getName() != null) this.setName(user.getName());
-        if (user.getEmail() != null) this.setEmail(user.getEmail());
-        return this;
     }
 
     @Override
