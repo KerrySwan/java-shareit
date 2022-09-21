@@ -1,7 +1,6 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.common.excepton.DoesNotExistsException;
 import ru.practicum.shareit.user.IUserStorage;
@@ -11,19 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ItemService {
+@RequiredArgsConstructor
+public class ItemService implements IItemService {
 
     private final IItemStorage<Item> itemStorage;
     private final IUserStorage<User> userStorage;
 
-
-    @Autowired
-    public ItemService(@Qualifier("itemStorage") IItemStorage<Item> itemStorage,
-                       @Qualifier("userStorage") IUserStorage<User> userStorage) {
-        this.itemStorage = itemStorage;
-        this.userStorage = userStorage;
-    }
-
+    @Override
     public ItemDto addItem(long userId, ItemDto itemDto) {
         User user = userStorage.get(userId);
         itemDto.setOwner(user);
@@ -31,6 +24,7 @@ public class ItemService {
         return ItemMapper.toDto(item);
     }
 
+    @Override
     public ItemDto updateItem(long userId, ItemDto itemDto) {
         User user = getUserIfBelongs(userId, itemDto.getId());
         itemDto.setOwner(user);
@@ -38,11 +32,13 @@ public class ItemService {
         return ItemMapper.toDto(item);
     }
 
+    @Override
     public ItemDto getItem(long itemId) {
         Item item = itemStorage.get(itemId);
         return ItemMapper.toDto(item);
     }
 
+    @Override
     public List<ItemDto> getAll(long userId) {
         List<Item> items = itemStorage.get();
         return items.stream()
@@ -51,6 +47,7 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<ItemDto> find(String pattern) {
         List<Item> items = itemStorage.find(pattern);
         return items.stream()

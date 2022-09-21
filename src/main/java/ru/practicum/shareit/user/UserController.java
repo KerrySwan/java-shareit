@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
     @GetMapping(path = "/{userId}")
     public UserDto get(@PathVariable(name = "userId") @Positive long id) {
