@@ -19,7 +19,7 @@ public class ItemService implements IItemService {
     @Override
     public ItemDto addItem(long userId, ItemDto itemDto) {
         User user = userStorage.get(userId);
-        itemDto.setOwner(user);
+        itemDto.setOwnerId(user.getId());
         Item item = itemStorage.add(ItemMapper.toModel(itemDto));
         return ItemMapper.toDto(item);
     }
@@ -27,7 +27,7 @@ public class ItemService implements IItemService {
     @Override
     public ItemDto updateItem(long userId, ItemDto itemDto) {
         User user = getUserIfBelongs(userId, itemDto.getId());
-        itemDto.setOwner(user);
+        itemDto.setOwnerId(user.getId());
         Item item = itemStorage.update(ItemMapper.toModel(itemDto));
         return ItemMapper.toDto(item);
     }
@@ -42,7 +42,7 @@ public class ItemService implements IItemService {
     public List<ItemDto> getAll(long userId) {
         List<Item> items = itemStorage.get();
         return items.stream()
-                .filter(item -> item.getOwner().getId() == userId)
+                .filter(item -> item.getOwnerId() == userId)
                 .map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -58,7 +58,7 @@ public class ItemService implements IItemService {
     private User getUserIfBelongs(long userId, long itemId) {
         User user = userStorage.get(userId);
         Item item = itemStorage.get(itemId);
-        if (!item.getOwner().equals(user)) {
+        if (item.getOwnerId() != user.getId()) {
             String msg = String.format("Such an item with id=%s does not belong to user id=%s.", itemId, userId);
             throw new DoesNotExistsException(msg);
         }

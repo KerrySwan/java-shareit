@@ -84,7 +84,7 @@ public class ItemStorage implements IItemStorage<Item> {
         if (updItemData.getName() != null) item.setName(updItemData.getName());
         if (updItemData.getDescription() != null) item.setDescription(updItemData.getDescription());
         if (updItemData.getAvailable() != null) item.setAvailable(updItemData.getAvailable());
-        if (updItemData.getOwner() != null) item.setOwner(updItemData.getOwner());
+        if (updItemData.getOwnerId() > 0) item.setOwnerId(updItemData.getOwnerId());
         if (updItemData.getRequest() != null) item.setRequest(updItemData.getRequest());
         return item;
     }
