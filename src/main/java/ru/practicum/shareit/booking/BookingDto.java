@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Booking {
+public class BookingDto {
 
     private final long id;
     private final LocalDateTime start;
