@@ -1,41 +1,17 @@
 package ru.practicum.shareit.user;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-public class UserService implements IUserService {
+public interface UserService {
 
-    private final IUserStorage<User> userStorage;
+    UserDto addUser(UserDto userDto);
 
-    @Override
-    public UserDto addUser(UserDto userDto) {
-        User user = userStorage.add(UserMapper.toModel(userDto));
-        return UserMapper.toDto(user);
-    }
+    UserDto updateUser(UserDto userDto);
 
-    @Override
-    public UserDto updateUser(UserDto userDto) {
-        User user = userStorage.update(UserMapper.toModel(userDto));
-        return UserMapper.toDto(user);
-    }
+    void deleteUser(long id);
 
-    @Override
-    public void deleteUser(long id) {
-        userStorage.remove(id);
-    }
+    UserDto getUser(long id);
 
-    @Override
-    public UserDto getUser(long id) {
-        return UserMapper.toDto(userStorage.get(id));
-    }
+    List<UserDto> getUsers();
 
-    @Override
-    public List<UserDto> getUsers() {
-        return userStorage.get().stream().map(UserMapper::toDto).collect(Collectors.toList());
-    }
 }

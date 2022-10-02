@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final IItemService itemService;
+    private final ItemService itemService;
 
     @GetMapping
     public List<ItemDto> getAll(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId) {
