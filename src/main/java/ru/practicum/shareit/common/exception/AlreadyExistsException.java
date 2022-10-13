@@ -1,4 +1,4 @@
-package ru.practicum.shareit.common.excepton;
+package ru.practicum.shareit.common.exception;
 
 public class AlreadyExistsException extends RuntimeException {
     public AlreadyExistsException(String message) {

@@ -3,6 +3,8 @@ package ru.practicum.shareit.item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.shareit.booking.Booking;
+import ru.practicum.shareit.booking.BookingDtoIdOnly;
 
 import javax.persistence.*;
 
@@ -23,6 +25,17 @@ public class Item {
     private long ownerId;
     @Column(name = "request_id")
     private long requestId;
+    @Transient
+    private BookingDtoIdOnly lastBooking;
+    @Transient
+    private BookingDtoIdOnly nextBooking;
+
+
+    public void setNextBooking(BookingDtoIdOnly nextBooking) {
+        if (this.lastBooking == null) this.lastBooking = nextBooking;
+        else this.lastBooking = this.nextBooking;
+        this.nextBooking = nextBooking;
+    }
 
     public Item() {
     }
