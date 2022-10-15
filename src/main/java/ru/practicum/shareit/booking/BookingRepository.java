@@ -30,7 +30,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "from Booking b " +
             "where 1=1" +
             "  and b.booker.id = :bookerId " +
-            "  and :now between b.end and b.start")
+            "  and :now >= b.start " +
+            "  and :now <= b.end")
     List<Booking> findAllByBookerIdAndStartIsBeforeAndEndIsAfter(
             long bookerId,
             @Param("now") LocalDateTime now,
@@ -44,7 +45,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "from Booking b " +
             "where 1=1" +
             "  and b.item.ownerId = :ownerId " +
-            "  and :start < b.start ")
+            "  and :start <= b.start ")
     List<Booking> findAllByOwnerIdAndStartIsAfter(long ownerId, LocalDateTime start, Sort sort);
 
     @Query("select " +
@@ -60,7 +61,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "from Booking b " +
             "where 1=1" +
             "  and b.item.ownerId = :ownerId " +
-            "  and :now between b.end and b.start ")
+            "  and :now >= b.start " +
+            "  and :now <= b.end")
     List<Booking> findAllByOwnerIdAndStartIsBeforeAndEndIsAfter(
             long ownerId,
             @Param("now") LocalDateTime now,
@@ -84,5 +86,16 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             + "  and b.status != 'REJECTED' "
     )
     List<Booking> findAllByItemId(long itemId, long bookerId);
+
+    @Query("select " +
+            " b " +
+            "from Booking b " +
+            "where 1=1" +
+            "  and b.item.id = :itemId" +
+            "  and b.booker.id = :bookerId" +
+            "  and b.status = 'APPROVED' " +
+            "  and b.end <= :now"
+    )
+    List<Booking> findAllByItemIdAndBookerId(long itemId, long bookerId, LocalDateTime now);
 
 }

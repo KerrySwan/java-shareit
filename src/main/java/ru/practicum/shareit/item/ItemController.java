@@ -46,6 +46,13 @@ public class ItemController {
         return itemService.find(pattern);
     }
 
+    @PostMapping(path = "/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader(value = "X-Sharer-User-Id") long userId,
+                                 @PathVariable(value = "itemId") long itemId,
+                                 @RequestBody @Valid CommentDto commentDto){
+        return itemService.addComment(userId, itemId, commentDto);
+    }
+
 }
 
 

@@ -5,17 +5,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.booking.BookingDtoIdOnly;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.common.exception.DoesNotExistsException;
+import ru.practicum.shareit.common.exception.InvalidUserException;
+import ru.practicum.shareit.common.exception.ItemIsAnavailableException;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +26,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemStorage;
     private final UserRepository userStorage;
     private final BookingRepository bookingStorage;
+    private final CommentRepository commentsStorage;
 
     @Override
     @Transactional
@@ -50,8 +51,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto getItem(long userId, long itemId) {
         Item item = itemStorage.findById(itemId).orElseThrow();
-        item = setLastAndNextBooking(item, userId);
-        return ItemMapper.toDto(item);
+        ItemDto dto = ItemMapper.toDto(item);
+        addCommentsToItem(dto);
+        setLastAndNextBooking(dto, userId);
+        return dto;
     }
 
     @Override
@@ -59,24 +62,35 @@ public class ItemServiceImpl implements ItemService {
         List<Item> items = itemStorage.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return items.stream()
                 .filter(item -> item.getOwnerId() == userId)
-                .map(i -> setLastAndNextBooking(i, userId))
                 .map(ItemMapper::toDto)
+                .map(i -> setLastAndNextBooking(i, userId))
+                .map(this::addCommentsToItem)
                 .collect(Collectors.toList());
     }
 
-    private Item setLastAndNextBooking(Item item, long bookerId){
+    private ItemDto addCommentsToItem(ItemDto itemDto) {
+        List<Comment> comments = commentsStorage.findAllByItemId(itemDto.getId());
+        itemDto.setComments(
+                comments.stream()
+                        .map(CommentMapper::toDto)
+                        .collect(Collectors.toList())
+        );
+        return itemDto;
+    }
+
+    private ItemDto setLastAndNextBooking(ItemDto itemDto, long bookerId) {
         Comparator<Booking> c = new Comparator<>() {
             @Override
             public int compare(Booking o1, Booking o2) {
                 return o1.getStart().isBefore(o2.getStart()) ? -1 : o1.getStart().isAfter(o2.getStart()) ? 1 : 0;
             }
         };
-        List<Booking> bookings = bookingStorage.findAllByItemId(item.getId(), bookerId);
+        List<Booking> bookings = bookingStorage.findAllByItemId(itemDto.getId(), bookerId);
         bookings.sort(c);
         for (Booking booking : bookings) {
-            item.setNextBooking(BookingMapper.toDtoIdOnly(booking));
+            itemDto.setNextBooking(BookingMapper.toDtoIdOnly(booking));
         }
-        return item;
+        return itemDto;
     }
 
     @Override
@@ -85,6 +99,22 @@ public class ItemServiceImpl implements ItemService {
         return items.stream()
                 .map(ItemMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public CommentDto addComment(long userId, long itemId, CommentDto commentDto) {
+        User u = userStorage.findById(userId).orElseThrow();
+        Item i = itemStorage.findById(itemId).orElseThrow();
+        List<Booking> bookings = bookingStorage.findAllByItemIdAndBookerId(itemId, userId, LocalDateTime.now());
+        if (bookings.isEmpty())
+            throw new ItemIsAnavailableException("Item have not been booked by this user yet.");
+        Comment comment = CommentMapper.toModel(commentDto);
+        comment.setAuthor(u);
+        comment.setItem(i);
+        return CommentMapper.toDto(
+                commentsStorage.save(comment)
+        );
     }
 
     private void throwIfNotBelongs(long userId, long itemId) {
@@ -96,7 +126,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    public Item updateItemEntity(Item item, Item updItemData) {
+    private Item updateItemEntity(Item item, Item updItemData) {
         if (updItemData.getName() != null) item.setName(updItemData.getName());
         if (updItemData.getDescription() != null) item.setDescription(updItemData.getDescription());
         if (updItemData.getAvailable() != null) item.setAvailable(updItemData.getAvailable());

@@ -12,9 +12,7 @@ public class ItemMapper {
                 item.getDescription(),
                 item.getAvailable(),
                 item.getOwnerId(),
-                item.getRequestId(),
-                item.getLastBooking(),
-                item.getNextBooking()
+                item.getRequestId()
         );
     }
 
@@ -25,9 +23,7 @@ public class ItemMapper {
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
                 itemDto.getOwnerId(),
-                itemDto.getRequestId(),
-                itemDto.getLastBooking(),
-                itemDto.getNextBooking()
+                itemDto.getRequestId()
         );
     }
 }
