@@ -8,7 +8,6 @@ import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.common.exception.DoesNotExistsException;
-import ru.practicum.shareit.common.exception.InvalidUserException;
 import ru.practicum.shareit.common.exception.ItemIsAnavailableException;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;

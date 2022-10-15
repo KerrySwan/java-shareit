@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.shareit.item.Item;
@@ -9,7 +8,8 @@ import ru.practicum.shareit.user.User;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter
+@Getter
+@Setter
 public class BookingDto {
 
     private long id;

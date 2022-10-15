@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class BookingServiceImpl implements BookingService{
+public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final ItemRepository itemRepository;
@@ -34,9 +34,9 @@ public class BookingServiceImpl implements BookingService{
     public BookingDto add(long userId, BookingDtoIdOnly bookingDtoIdOnly) {
         BookingDto b = initBooker(userId, bookingDtoIdOnly);
         b.setStatus(BookingStatus.WAITING);
-        if(!b.getItem().getAvailable())
+        if (!b.getItem().getAvailable())
             throw new ItemIsAnavailableException(String.format("item id = %s is anavailable", bookingDtoIdOnly.getItemId()));
-        if(b.getItem().getOwnerId() == userId)
+        if (b.getItem().getOwnerId() == userId)
             throw new InvalidUserException("User can't book his own item");
         Booking booking = BookingMapper.toModel(b);
         booking = bookingRepository.save(booking);
@@ -48,7 +48,8 @@ public class BookingServiceImpl implements BookingService{
     public BookingDto changeStatus(long userId, long bookingId, boolean isApproved) {
         BookingStatus bs = isApproved ? BookingStatus.APPROVED : BookingStatus.REJECTED;
         Booking b = bookingRepository.findById(bookingId).orElseThrow();
-        if (b.getStatus() == BookingStatus.APPROVED) throw new AccessException("Status of booking can't be changed after approval");
+        if (b.getStatus() == BookingStatus.APPROVED)
+            throw new AccessException("Status of booking can't be changed after approval");
         if (b.getBooker().getId() == userId) throw new InvalidUserException("Booker can't change status of an booking");
         b.setStatus(bs);
         bookingRepository.save(b);
@@ -59,7 +60,7 @@ public class BookingServiceImpl implements BookingService{
     public BookingDto getByUserIdAndBookingId(long userId, long bookingId) {
         userRepository.findById(userId).orElseThrow();
         Booking booking = bookingRepository.findById(bookingId).orElseThrow();
-        if ( !(booking.getBooker().getId() == userId || booking.getItem().getOwnerId() == userId) )
+        if (!(booking.getBooker().getId() == userId || booking.getItem().getOwnerId() == userId))
             throw new InvalidUserException(String.format("User id = %d and booking id = %d are not linked", userId, bookingId));
         return BookingMapper.toDto(booking);
     }
@@ -86,7 +87,7 @@ public class BookingServiceImpl implements BookingService{
     public List<BookingDto> getUserIdAndByState(long userId, String state) {
         userRepository.findById(userId).orElseThrow();
         List<Booking> result;
-        switch (state){
+        switch (state) {
             case "ALL":
                 result = bookingRepository.findAllByBookerId(userId, s);
                 break;
@@ -117,7 +118,7 @@ public class BookingServiceImpl implements BookingService{
     public List<BookingDto> getOwnerIdAndByState(long ownerId, String state) {
         userRepository.findById(ownerId).orElseThrow();
         List<Booking> result = new ArrayList<>();
-        switch (state){
+        switch (state) {
             case "ALL":
                 result = bookingRepository.findAllByItemOwnerId(ownerId, s);
                 break;
@@ -144,7 +145,7 @@ public class BookingServiceImpl implements BookingService{
                 .collect(Collectors.toList());
     }
 
-    private BookingDto initBooker(long userId, BookingDtoIdOnly bookingDtoIdOnly){
+    private BookingDto initBooker(long userId, BookingDtoIdOnly bookingDtoIdOnly) {
         User u = userRepository.findById(userId).orElseThrow();
         Item i = itemRepository.findById(bookingDtoIdOnly.getItemId()).orElseThrow();
         BookingDto b = BookingMapper.toFullDto(bookingDtoIdOnly);

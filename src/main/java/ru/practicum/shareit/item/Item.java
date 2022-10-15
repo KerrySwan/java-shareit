@@ -3,8 +3,6 @@ package ru.practicum.shareit.item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.booking.BookingDtoIdOnly;
 
 import javax.persistence.*;
 

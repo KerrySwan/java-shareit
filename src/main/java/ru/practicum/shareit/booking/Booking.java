@@ -23,14 +23,14 @@ public class Booking {
     private LocalDateTime end;
     @OneToOne
     @JoinColumn(
-        name = "item_id",
-        referencedColumnName = "id"
+            name = "item_id",
+            referencedColumnName = "id"
     )
     private Item item;
     @OneToOne
     @JoinColumn(
-        name = "booker_id",
-        referencedColumnName = "id"
+            name = "booker_id",
+            referencedColumnName = "id"
     )
     private User booker;
     @Enumerated(EnumType.STRING)
@@ -56,7 +56,8 @@ public class Booking {
 
     public void setStart(LocalDateTime start) {
         if (start.isBefore(LocalDateTime.now())) throw new InvalidDateException("start time cannot be in the past");
-        if (end != null && start.isAfter(this.getEnd())) throw new InvalidDateException("start time cannot be after end time");
+        if (end != null && start.isAfter(this.getEnd()))
+            throw new InvalidDateException("start time cannot be after end time");
         this.start = start;
     }
 }
