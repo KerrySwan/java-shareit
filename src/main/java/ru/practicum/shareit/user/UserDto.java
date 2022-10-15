@@ -12,11 +12,11 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class UserDto {
 
+    private long id;
     @NotBlank(message = "Name is mandatory")
     private final String name;
     @Email(message = "Email is not valid")
     @NotBlank(message = "Email is mandatory")
     private final String email;
-    private long id;
 
 }
