@@ -34,7 +34,7 @@ public class PersistenceConfig {
         properties.put("javax.persistence.schema-generation.database.action",
                 environment.getProperty("javax.persistence.schema-generation.database.action", "none"));
         properties.put("javax.persistence.schema-generation.create-script-source",
-                environment.getProperty("javax.persistence.schema-generation.create-script-source"));
+                "schema.sql");
         return properties;
     }
 
