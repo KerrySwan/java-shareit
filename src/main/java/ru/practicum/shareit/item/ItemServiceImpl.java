@@ -94,7 +94,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> find(String pattern) {
-        List<Item> items = itemStorage.findAllByNameOrByDesc('%'+pattern.toLowerCase()+'%');
+        List<Item> items = itemStorage.findAllByNameOrByDesc('%' + pattern.toLowerCase() + '%');
         return items.stream()
                 .map(ItemMapper::toDto)
                 .collect(Collectors.toList());
