@@ -10,14 +10,13 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query(value =
-            "select" +
-                    " i " +
-                    "from Item i " +
-                    "where (lower(i.name) like :pattern or lower(i.description) like :pattern)" +
-                    "  and i.available is true" +
-                    "  and length(:pattern) > 2")
-    List<Item> findAllByNameOrByDesc(@Param("pattern") String pattern);
+    @Query(value = "select * from items i " +
+            "where 1 = 1" +
+            "  and (lower(i.name) like lower(concat('%', ?1,'%')) or lower(i.description) like lower(concat('%', ?1,'%')))" +
+            "  and i.available = true" +
+            "  and length(?1) > 0",
+            nativeQuery = true)
+    List<Item> findAllByNameOrByDesc(String pattern);
 
     void deleteById(long id);
 
