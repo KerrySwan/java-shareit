@@ -15,6 +15,7 @@ import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class BookingServiceImpl implements BookingService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
-    Sort s = Sort.by(Sort.Direction.DESC, "start");
+    Sort descSortByStart = Sort.by(Sort.Direction.DESC, "start");
 
     @Override
     @Transactional
@@ -68,7 +69,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> findAllByUserId(long userId) {
         userRepository.findById(userId).orElseThrow();
-        List<Booking> bookingList = bookingRepository.findAllByBookerId(userId, s);
+        List<Booking> bookingList = bookingRepository.findAllByBookerId(userId, descSortByStart);
         return bookingList.stream()
                 .map(BookingMapper::toDto)
                 .collect(Collectors.toList());
@@ -77,7 +78,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> findAllByOwnerId(long ownerId) {
         userRepository.findById(ownerId).orElseThrow();
-        List<Booking> bookingList = bookingRepository.findAllByItemOwnerId(ownerId, s);
+        List<Booking> bookingList = bookingRepository.findAllByItemOwnerId(ownerId, descSortByStart);
         return bookingList.stream()
                 .map(BookingMapper::toDto)
                 .collect(Collectors.toList());
@@ -86,28 +87,30 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> getUserIdAndByState(long userId, String state) {
         userRepository.findById(userId).orElseThrow();
-        List<Booking> result;
-        switch (state) {
-            case "ALL":
-                result = bookingRepository.findAllByBookerId(userId, s);
-                break;
-            case "PAST":
-                result = bookingRepository.findAllByBookerIdAndEndIsBefore(userId, LocalDateTime.now(), s);
-                break;
-            case "CURRENT":
-                result = bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfter(userId, LocalDateTime.now(), s);
-                break;
-            case "FUTURE":
-                result = bookingRepository.findAllByBookerIdAndStartIsAfter(userId, LocalDateTime.now(), s);
-                break;
-            case "WAITING":
-                result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.WAITING);
-                break;
-            case "REJECTED":
-                result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.REJECTED);
-                break;
-            default:
-                throw new UnsupportedStatusException("Unknown state: " + state);
+        List<Booking> result = Collections.emptyList();
+        try {
+            switch (BookingState.valueOf(state)) {
+                case ALL:
+                    result = bookingRepository.findAllByBookerId(userId, descSortByStart);
+                    break;
+                case PAST:
+                    result = bookingRepository.findAllByBookerIdAndEndIsBefore(userId, LocalDateTime.now(), descSortByStart);
+                    break;
+                case CURRENT:
+                    result = bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfter(userId, LocalDateTime.now(), descSortByStart);
+                    break;
+                case FUTURE:
+                    result = bookingRepository.findAllByBookerIdAndStartIsAfter(userId, LocalDateTime.now(), descSortByStart);
+                    break;
+                case WAITING:
+                    result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.WAITING);
+                    break;
+                case REJECTED:
+                    result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.REJECTED);
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedStatusException("Unknown state: " + state);
         }
         return result.stream()
                 .map(BookingMapper::toDto)
@@ -117,28 +120,30 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> getOwnerIdAndByState(long ownerId, String state) {
         userRepository.findById(ownerId).orElseThrow();
-        List<Booking> result = new ArrayList<>();
-        switch (state) {
-            case "ALL":
-                result = bookingRepository.findAllByItemOwnerId(ownerId, s);
-                break;
-            case "PAST":
-                result = bookingRepository.findAllByOwnerIdAndEndIsBefore(ownerId, LocalDateTime.now(), s);
-                break;
-            case "CURRENT":
-                result = bookingRepository.findAllByOwnerIdAndStartIsBeforeAndEndIsAfter(ownerId, LocalDateTime.now(), s);
-                break;
-            case "FUTURE":
-                result = bookingRepository.findAllByOwnerIdAndStartIsAfter(ownerId, LocalDateTime.now(), s);
-                break;
-            case "WAITING":
-                result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.WAITING);
-                break;
-            case "REJECTED":
-                result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.REJECTED);
-                break;
-            default:
-                throw new UnsupportedStatusException("Unknown state: " + state);
+        List<Booking> result = Collections.emptyList();
+        try {
+            switch (BookingState.valueOf(state)) {
+                case ALL:
+                    result = bookingRepository.findAllByItemOwnerId(ownerId, descSortByStart);
+                    break;
+                case PAST:
+                    result = bookingRepository.findAllByOwnerIdAndEndIsBefore(ownerId, LocalDateTime.now(), descSortByStart);
+                    break;
+                case CURRENT:
+                    result = bookingRepository.findAllByOwnerIdAndStartIsBeforeAndEndIsAfter(ownerId, LocalDateTime.now(), descSortByStart);
+                    break;
+                case FUTURE:
+                    result = bookingRepository.findAllByOwnerIdAndStartIsAfter(ownerId, LocalDateTime.now(), descSortByStart);
+                    break;
+                case WAITING:
+                    result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.WAITING);
+                    break;
+                case REJECTED:
+                    result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.REJECTED);
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedStatusException("Unknown state: " + state);
         }
         return result.stream()
                 .map(BookingMapper::toDto)
