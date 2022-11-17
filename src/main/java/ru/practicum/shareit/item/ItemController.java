@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final IItemService itemService;
+    private final ItemService itemService;
 
     @GetMapping
     public List<ItemDto> getAll(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId) {
@@ -22,8 +22,9 @@ public class ItemController {
     }
 
     @GetMapping(path = "/{itemId}")
-    public ItemDto get(@PathVariable(value = "itemId") @Positive long itemId) {
-        return itemService.getItem(itemId);
+    public ItemDto get(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId,
+                       @PathVariable(value = "itemId") @Positive long itemId) {
+        return itemService.getItem(userId, itemId);
     }
 
     @PostMapping
@@ -43,6 +44,13 @@ public class ItemController {
     @GetMapping(path = "/search")
     public List<ItemDto> search(@RequestParam(value = "text") String pattern) {
         return itemService.find(pattern);
+    }
+
+    @PostMapping(path = "/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader(value = "X-Sharer-User-Id") long userId,
+                                 @PathVariable(value = "itemId") long itemId,
+                                 @RequestBody @Valid CommentDto commentDto) {
+        return itemService.addComment(userId, itemId, commentDto);
     }
 
 }
