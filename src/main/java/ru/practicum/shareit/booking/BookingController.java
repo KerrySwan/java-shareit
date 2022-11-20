@@ -5,6 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -35,25 +36,34 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingDto> getAllById(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId) {
-        return bookingService.findAllByUserId(userId);
+    public List<BookingDto> getAllById(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId,
+                                       @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero int from,
+                                       @RequestParam(value = "size", required = false, defaultValue = "10") @Positive int size) {
+        return bookingService.findAllByUserId(userId, from, size);
     }
 
     @GetMapping(path = "/owner")
-    public List<BookingDto> getAllByOwner(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId) {
-        return bookingService.findAllByOwnerId(userId);
+    public List<BookingDto> getAllByOwner(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId,
+                                          @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero int from,
+                                          @RequestParam(value = "size", required = false, defaultValue = "10") @Positive int size) {
+        return bookingService.findAllByOwnerId(userId, from, size);
     }
 
     @GetMapping(params = "state")
     public List<BookingDto> getByState(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId,
-                                       @RequestParam String state) {
-        return bookingService.getUserIdAndByState(userId, state);
+                                       @RequestParam String state,
+                                       @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero int from,
+                                       @RequestParam(value = "size", required = false, defaultValue = "10") @Positive int size) {
+        return bookingService.getByUserIdAndByState(userId, state, from, size);
     }
 
     @GetMapping(path = "/owner", params = "state")
     public List<BookingDto> getByOwnerState(@RequestHeader(value = "X-Sharer-User-Id") @Positive long ownerId,
-                                            @RequestParam String state) {
-        return bookingService.getOwnerIdAndByState(ownerId, state);
+                                            @RequestParam String state,
+                                            @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero int from,
+                                            @RequestParam(value = "size", required = false, defaultValue = "10") @Positive int size) {
+        return bookingService.getOwnerIdAndByState(ownerId, state, from, size);
     }
 
 }
+

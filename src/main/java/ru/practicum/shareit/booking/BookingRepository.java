@@ -1,6 +1,6 @@
 package ru.practicum.shareit.booking;
 
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,18 +12,18 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    List<Booking> findAllByBookerId(long bookerId, Sort sort);
+    List<Booking> findAllByBookerId(long bookerId, Pageable pageable);
 
     @Query("select " +
             " b " +
             "from Booking b " +
             "where 1=1 " +
             "  and b.item.ownerId = :ownerId ")
-    List<Booking> findAllByItemOwnerId(long ownerId, Sort sort);
+    List<Booking> findAllByItemOwnerId(long ownerId, Pageable pageable);
 
-    List<Booking> findAllByBookerIdAndStartIsAfter(long bookerId, LocalDateTime start, Sort sort);
+    List<Booking> findAllByBookerIdAndStartIsAfter(long bookerId, LocalDateTime start, Pageable pageable);
 
-    List<Booking> findAllByBookerIdAndEndIsBefore(long bookerId, LocalDateTime end, Sort sort);
+    List<Booking> findAllByBookerIdAndEndIsBefore(long bookerId, LocalDateTime end, Pageable pageable);
 
     @Query("select " +
             " b " +
@@ -35,10 +35,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByBookerIdAndStartIsBeforeAndEndIsAfter(
             long bookerId,
             @Param("now") LocalDateTime now,
-            Sort sort
+            Pageable pageable
     );
 
-    List<Booking> findAllByBookerIdAndStatus(long bookerId, BookingStatus status);
+    List<Booking> findAllByBookerIdAndStatus(long bookerId, BookingStatus status, Pageable pageable);
 
     @Query("select " +
             " b " +
@@ -46,7 +46,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "where 1=1" +
             "  and b.item.ownerId = :ownerId " +
             "  and :start <= b.start ")
-    List<Booking> findAllByOwnerIdAndStartIsAfter(long ownerId, LocalDateTime start, Sort sort);
+    List<Booking> findAllByOwnerIdAndStartIsAfter(long ownerId, LocalDateTime start, Pageable pageable);
 
     @Query("select " +
             " b " +
@@ -54,7 +54,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "where 1=1" +
             "  and b.item.ownerId = :ownerId " +
             "  and :end > b.end ")
-    List<Booking> findAllByOwnerIdAndEndIsBefore(long ownerId, LocalDateTime end, Sort sort);
+    List<Booking> findAllByOwnerIdAndEndIsBefore(long ownerId, LocalDateTime end, Pageable pageable);
 
     @Query("select " +
             " b " +
@@ -66,7 +66,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByOwnerIdAndStartIsBeforeAndEndIsAfter(
             long ownerId,
             @Param("now") LocalDateTime now,
-            Sort sort
+            Pageable pageable
     );
 
     @Query("select " +
@@ -75,7 +75,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "where 1=1" +
             "  and b.item.ownerId = :ownerId " +
             "  and b.status = :status")
-    List<Booking> findAllByOwnerIdAndStatus(long ownerId, BookingStatus status);
+    List<Booking> findAllByOwnerIdAndStatus(long ownerId, BookingStatus status, Pageable pageable);
 
     @Query("select " +
             " b " +
@@ -85,7 +85,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "  and b.booker.id != :bookerId"
             + "  and b.status != 'REJECTED' "
     )
-    List<Booking> findAllByItemId(long itemId, long bookerId);
+    List<Booking> findAllByItemId(long itemId, long bookerId, Pageable pageable);
 
     @Query("select " +
             " b " +
@@ -96,6 +96,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "  and b.status = 'APPROVED' " +
             "  and b.end <= :now"
     )
-    List<Booking> findAllByItemIdAndBookerId(long itemId, long bookerId, LocalDateTime now);
+    List<Booking> findAllByItemIdAndBookerId(long itemId, long bookerId, LocalDateTime now, Pageable pageable);
 
 }

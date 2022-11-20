@@ -1,6 +1,7 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,46 +67,46 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> findAllByUserId(long userId) {
+    public List<BookingDto> findAllByUserId(long userId, int from, int size) {
         userRepository.findById(userId).orElseThrow();
-        List<Booking> bookingList = bookingRepository.findAllByBookerId(userId, descSortByStart);
+        List<Booking> bookingList = bookingRepository.findAllByBookerId(userId, PageRequest.of(from / size, size, descSortByStart));
         return bookingList.stream()
                 .map(BookingMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<BookingDto> findAllByOwnerId(long ownerId) {
+    public List<BookingDto> findAllByOwnerId(long ownerId, int from, int size) {
         userRepository.findById(ownerId).orElseThrow();
-        List<Booking> bookingList = bookingRepository.findAllByItemOwnerId(ownerId, descSortByStart);
+        List<Booking> bookingList = bookingRepository.findAllByItemOwnerId(ownerId, PageRequest.of(from / size, size, descSortByStart));
         return bookingList.stream()
                 .map(BookingMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<BookingDto> getUserIdAndByState(long userId, String state) {
+    public List<BookingDto> getByUserIdAndByState(long userId, String state, int from, int size) {
         userRepository.findById(userId).orElseThrow();
         List<Booking> result = Collections.emptyList();
         try {
             switch (BookingState.valueOf(state)) {
                 case ALL:
-                    result = bookingRepository.findAllByBookerId(userId, descSortByStart);
+                    result = bookingRepository.findAllByBookerId(userId, PageRequest.of(0, size, descSortByStart));
                     break;
                 case PAST:
-                    result = bookingRepository.findAllByBookerIdAndEndIsBefore(userId, LocalDateTime.now(), descSortByStart);
+                    result = bookingRepository.findAllByBookerIdAndEndIsBefore(userId, LocalDateTime.now(), PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case CURRENT:
-                    result = bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfter(userId, LocalDateTime.now(), descSortByStart);
+                    result = bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfter(userId, LocalDateTime.now(), PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case FUTURE:
-                    result = bookingRepository.findAllByBookerIdAndStartIsAfter(userId, LocalDateTime.now(), descSortByStart);
+                    result = bookingRepository.findAllByBookerIdAndStartIsAfter(userId, LocalDateTime.now(), PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case WAITING:
-                    result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.WAITING);
+                    result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.WAITING, PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case REJECTED:
-                    result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.REJECTED);
+                    result = bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.REJECTED, PageRequest.of(from / size, size, descSortByStart));
                     break;
             }
         } catch (IllegalArgumentException e) {
@@ -117,28 +118,28 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getOwnerIdAndByState(long ownerId, String state) {
+    public List<BookingDto> getOwnerIdAndByState(long ownerId, String state, int from, int size) {
         userRepository.findById(ownerId).orElseThrow();
         List<Booking> result = Collections.emptyList();
         try {
             switch (BookingState.valueOf(state)) {
                 case ALL:
-                    result = bookingRepository.findAllByItemOwnerId(ownerId, descSortByStart);
+                    result = bookingRepository.findAllByItemOwnerId(ownerId, PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case PAST:
-                    result = bookingRepository.findAllByOwnerIdAndEndIsBefore(ownerId, LocalDateTime.now(), descSortByStart);
+                    result = bookingRepository.findAllByOwnerIdAndEndIsBefore(ownerId, LocalDateTime.now(), PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case CURRENT:
-                    result = bookingRepository.findAllByOwnerIdAndStartIsBeforeAndEndIsAfter(ownerId, LocalDateTime.now(), descSortByStart);
+                    result = bookingRepository.findAllByOwnerIdAndStartIsBeforeAndEndIsAfter(ownerId, LocalDateTime.now(), PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case FUTURE:
-                    result = bookingRepository.findAllByOwnerIdAndStartIsAfter(ownerId, LocalDateTime.now(), descSortByStart);
+                    result = bookingRepository.findAllByOwnerIdAndStartIsAfter(ownerId, LocalDateTime.now(), PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case WAITING:
-                    result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.WAITING);
+                    result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.WAITING, PageRequest.of(from / size, size, descSortByStart));
                     break;
                 case REJECTED:
-                    result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.REJECTED);
+                    result = bookingRepository.findAllByOwnerIdAndStatus(ownerId, BookingStatus.REJECTED, PageRequest.of(from / size, size, descSortByStart));
                     break;
             }
         } catch (IllegalArgumentException e) {
