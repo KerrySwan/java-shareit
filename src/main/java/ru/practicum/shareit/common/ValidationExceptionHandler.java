@@ -22,11 +22,6 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
         return this.handleExceptionInternal(ex, (Object) null, headers, HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(AlreadyExistsException.class)
-    protected ResponseEntity<?> handleNotFoundError(AlreadyExistsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-    }
-
     @ExceptionHandler(DoesNotExistsException.class)
     protected ResponseEntity<?> handleNotFoundError(DoesNotExistsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);

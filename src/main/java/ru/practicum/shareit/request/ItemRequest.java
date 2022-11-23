@@ -8,6 +8,7 @@ import ru.practicum.shareit.user.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,12 +31,12 @@ public class ItemRequest {
     private User requester;
     private LocalDateTime created;
     @Column(insertable = false, updatable = false)
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "request_id",
             referencedColumnName = "id"
     )
-    private List<Item> items;
+    private List<Item> items = new ArrayList<Item>();
 
     public ItemRequest() {
     }

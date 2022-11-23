@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.item.ItemRepository;
+import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto add(long requesterId, ItemRequestDto dto) {
-        dto.setRequester(userRepository.findById(requesterId).orElseThrow());
+        dto.setRequester(UserMapper.toDto(userRepository.findById(requesterId).orElseThrow()));
         ItemRequest itemRequestDto = ItemRequestMapper.toModel(dto);
         itemRequestDto.setCreated(LocalDateTime.now());
         ItemRequest itemRequest = itemRequestRepository.save(itemRequestDto);

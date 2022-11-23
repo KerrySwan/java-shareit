@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import ru.practicum.shareit.common.exception.DoesNotExistsException;
+import ru.practicum.shareit.common.exception.ItemIsAnavailableException;
 import ru.practicum.shareit.user.UserController;
 import ru.practicum.shareit.user.UserDto;
 
@@ -26,6 +28,12 @@ public class ItemControllerTest {
             1L,
             "name",
             "email@email.com"
+    );
+
+    private UserDto userDto2 = new UserDto(
+            2L,
+            "name2",
+            "email2@email.com"
     );
 
     private ItemDto itemDto = new ItemDto(
@@ -71,6 +79,24 @@ public class ItemControllerTest {
     }
 
     @Test
+    void updateThrowsDoesNotExistsException(){
+        create();
+        userController.create(userDto2);
+        ItemDto upd = new ItemDto(
+                1L,
+                "upd",
+                "upd",
+                true,
+                1L,
+                1L
+        );
+        assertThrows(
+                DoesNotExistsException.class,
+                () -> itemController.update(1L,2L, upd)
+        );
+    }
+
+    @Test
     void search(){
         create();
         assertEquals(itemController.search("desc").get(0).getName(), itemDto.getName());
@@ -84,6 +110,15 @@ public class ItemControllerTest {
     @Test
     void updateWithException(){
         assertThrows(NoSuchElementException.class, () -> itemController.update(12L, 12L, itemDto));
+    }
+
+    @Test
+    void commentException(){
+        itemController.create(1L, itemDto);
+        assertThrows(
+                ItemIsAnavailableException.class,
+                () -> itemController.addComment(1L, 1L, commentDto)
+        );
     }
 
 }

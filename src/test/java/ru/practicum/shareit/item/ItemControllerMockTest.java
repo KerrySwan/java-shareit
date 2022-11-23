@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.practicum.shareit.user.User;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -38,11 +39,9 @@ public class ItemControllerMockTest {
             1L
     );
 
-    private CommentDto commentDto = new CommentDto(
+    private Comment comment = new Comment(
             1L,
-            "text",
-            1L,
-            "name"
+            "text"
     );
 
     @Test
@@ -115,16 +114,18 @@ public class ItemControllerMockTest {
 
     @Test
     void addCommentToItem() throws Exception {
+        comment.setItem(ItemMapper.toModel(itemDto));
+        comment.setAuthor(new User(1L, "s", "email@email.com"));
         Mockito.when(itemService.addComment(anyLong(), anyLong(), any()))
-                .thenReturn(commentDto);
+                .thenReturn(CommentMapper.toDto(comment));
         mvc.perform(post("/items/1/comment")
-                        .content(mapper.writeValueAsString(commentDto))
+                        .content(mapper.writeValueAsString(comment))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("X-Sharer-User-Id", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(commentDto)));
+                .andExpect(content().json(mapper.writeValueAsString(CommentMapper.toDto(comment))));
     }
 
 }
