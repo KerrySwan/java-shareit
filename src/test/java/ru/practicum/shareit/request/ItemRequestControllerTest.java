@@ -36,13 +36,13 @@ public class ItemRequestControllerTest {
             "desc",
             UserMapper.toDto(u1),
             LocalDateTime.of(2022, 10, 10, 10, 10, 10),
-            new ArrayList<>(){{
+            new ArrayList<>() {{
                 add(ItemMapper.toDto(i));
             }}
     );
 
     @BeforeEach
-    void preparation(){
+    void preparation() {
         userController.create(UserMapper.toDto(u1));
         userController.create(UserMapper.toDto(u2));
         itemController.create(1L, ItemMapper.toDto(i));
@@ -50,19 +50,19 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void getByRequestId(){
+    void getByRequestId() {
         assertEquals(itemRequestController.getByRequestId(1L, 1L).getId(), 1);
     }
 
     @Test
-    void getByUserId(){
+    void getByUserId() {
         assertEquals(itemRequestController.getByUserId(1L).get(0).getId(), 1);
     }
 
     @Test
-    void getAsPage(){
+    void getAsPage() {
         assertEquals(
-                itemRequestController.getAllAsPage(2L, 0 , 1).size(),
+                itemRequestController.getAllAsPage(2L, 0, 1).size(),
                 1
         );
     }

@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.practicum.shareit.item.Comment;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.user.User;
@@ -19,8 +18,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +48,7 @@ public class ItemRequestControllerMockTest {
     );
 
     @Test
-    void createRequest() throws Exception{
+    void createRequest() throws Exception {
         Mockito.when(itemRequestService.add(anyLong(), any()))
                 .thenReturn(req);
         mvc.perform(post("/requests")
@@ -63,7 +62,7 @@ public class ItemRequestControllerMockTest {
     }
 
     @Test
-    void getRequests() throws Exception{
+    void getRequests() throws Exception {
         Mockito.when(itemRequestService.getByUserId(anyLong()))
                 .thenReturn(List.of(req));
         mvc.perform(get("/requests")
@@ -76,7 +75,7 @@ public class ItemRequestControllerMockTest {
     }
 
     @Test
-    void getRequestsAsPage() throws Exception{
+    void getRequestsAsPage() throws Exception {
         Mockito.when(itemRequestService.getAllAsPage(anyLong(), anyInt(), anyInt()))
                 .thenReturn(List.of(req));
         mvc.perform(get("/requests/all")
@@ -91,7 +90,7 @@ public class ItemRequestControllerMockTest {
     }
 
     @Test
-    void getRequestById() throws Exception{
+    void getRequestById() throws Exception {
         Mockito.when(itemRequestService.getByRequestId(anyLong(), anyLong()))
                 .thenReturn(req);
         mvc.perform(get("/requests/1")

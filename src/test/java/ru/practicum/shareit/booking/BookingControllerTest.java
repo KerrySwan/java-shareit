@@ -118,7 +118,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void getgetByOwnerStateWithException(){
+    void getgetByOwnerStateWithException() {
         assertThrows(
                 UnsupportedStatusException.class,
                 () -> bookingController.getByOwnerState(1L, "ERROR", 0, 1)

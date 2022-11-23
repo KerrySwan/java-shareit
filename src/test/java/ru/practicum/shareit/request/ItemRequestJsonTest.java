@@ -18,7 +18,7 @@ public class ItemRequestJsonTest {
     JacksonTester<ItemRequest> json;
 
     @Test
-    void test() throws Exception{
+    void test() throws Exception {
         Item i = new Item(1L, "text", "desc", true, 1L, 1L);
         User u = new User(1L, "name", "user@email.com");
         ItemRequest r = new ItemRequest(

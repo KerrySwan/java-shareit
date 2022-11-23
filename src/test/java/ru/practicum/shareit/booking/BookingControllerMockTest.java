@@ -45,22 +45,22 @@ public class BookingControllerMockTest {
     );
 
     @Test
-    void addBooking() throws Exception{
+    void addBooking() throws Exception {
         Mockito.when(bookingService.add(anyLong(), any()))
                 .thenReturn(bookingDto);
         mvc.perform(post("/bookings")
-                .content(mapper.writeValueAsString(bookingDto))
-                .characterEncoding(StandardCharsets.UTF_8)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("X-Sharer-User-Id", 1L)
-                .accept(MediaType.APPLICATION_JSON))
+                        .content(mapper.writeValueAsString(bookingDto))
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-Sharer-User-Id", 1L)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(bookingDto)));
 
     }
 
     @Test
-    void changeState() throws Exception{
+    void changeState() throws Exception {
         Mockito.when(bookingService.changeStatus(anyLong(), anyLong(), anyBoolean()))
                 .thenReturn(bookingDto);
         mvc.perform(patch("/bookings/1")
@@ -75,7 +75,7 @@ public class BookingControllerMockTest {
     }
 
     @Test
-    void getBookingByIdAndUSerId() throws Exception{
+    void getBookingByIdAndUSerId() throws Exception {
         Mockito.when(bookingService.getByUserIdAndBookingId(anyLong(), anyLong()))
                 .thenReturn(bookingDto);
         mvc.perform(get("/bookings/1")
@@ -89,7 +89,7 @@ public class BookingControllerMockTest {
     }
 
     @Test
-    void getAllById() throws Exception{
+    void getAllById() throws Exception {
         Mockito.when(bookingService.findAllByUserId(anyLong(), anyInt(), anyInt()))
                 .thenReturn(List.of(bookingDto));
         mvc.perform(get("/bookings")
@@ -105,7 +105,7 @@ public class BookingControllerMockTest {
     }
 
     @Test
-    void getAllByOwnerId() throws Exception{
+    void getAllByOwnerId() throws Exception {
         Mockito.when(bookingService.findAllByOwnerId(anyLong(), anyInt(), anyInt()))
                 .thenReturn(List.of(bookingDto));
         mvc.perform(get("/bookings/owner")
@@ -121,7 +121,7 @@ public class BookingControllerMockTest {
     }
 
     @Test
-    void getBookingByState() throws Exception{
+    void getBookingByState() throws Exception {
         Mockito.when(bookingService.getByUserIdAndByState(anyLong(), anyString(), anyInt(), anyInt()))
                 .thenReturn(List.of(bookingDto));
         mvc.perform(get("/bookings")
@@ -138,7 +138,7 @@ public class BookingControllerMockTest {
     }
 
     @Test
-    void getBookingByOwnerState() throws Exception{
+    void getBookingByOwnerState() throws Exception {
         Mockito.when(bookingService.getOwnerIdAndByState(anyLong(), anyString(), anyInt(), anyInt()))
                 .thenReturn(List.of(bookingDto));
         mvc.perform(get("/bookings/owner")
@@ -153,7 +153,6 @@ public class BookingControllerMockTest {
                 .andExpect(content().json(mapper.writeValueAsString(List.of(bookingDto))));
 
     }
-
 
 
 }

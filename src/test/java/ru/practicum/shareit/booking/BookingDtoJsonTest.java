@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static ru.practicum.shareit.booking.BookingStatus.APPROVED;
+
 @JsonTest
 public class BookingDtoJsonTest {
 

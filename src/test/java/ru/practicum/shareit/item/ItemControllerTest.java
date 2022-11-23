@@ -53,18 +53,18 @@ public class ItemControllerTest {
     );
 
     @BeforeEach
-    void preparation(){
+    void preparation() {
         userController.create(userDto);
     }
 
     @Test
-    void create(){
+    void create() {
         itemController.create(1L, itemDto);
         assertEquals(itemController.get(1L, 1L).getId(), itemDto.getId());
     }
 
     @Test
-    void update(){
+    void update() {
         create();
         ItemDto upd = new ItemDto(
                 1L,
@@ -74,12 +74,12 @@ public class ItemControllerTest {
                 1L,
                 1L
         );
-        itemController.update(1L,1L, upd);
+        itemController.update(1L, 1L, upd);
         assertEquals(itemController.get(1L, 1L).getName(), upd.getName());
     }
 
     @Test
-    void updateThrowsDoesNotExistsException(){
+    void updateThrowsDoesNotExistsException() {
         create();
         userController.create(userDto2);
         ItemDto upd = new ItemDto(
@@ -92,28 +92,28 @@ public class ItemControllerTest {
         );
         assertThrows(
                 DoesNotExistsException.class,
-                () -> itemController.update(1L,2L, upd)
+                () -> itemController.update(1L, 2L, upd)
         );
     }
 
     @Test
-    void search(){
+    void search() {
         create();
         assertEquals(itemController.search("desc").get(0).getName(), itemDto.getName());
     }
 
     @Test
-    void getWithException(){
+    void getWithException() {
         assertThrows(NoSuchElementException.class, () -> itemController.get(1L, 1L));
     }
 
     @Test
-    void updateWithException(){
+    void updateWithException() {
         assertThrows(NoSuchElementException.class, () -> itemController.update(12L, 12L, itemDto));
     }
 
     @Test
-    void commentException(){
+    void commentException() {
         itemController.create(1L, itemDto);
         assertThrows(
                 ItemIsAnavailableException.class,

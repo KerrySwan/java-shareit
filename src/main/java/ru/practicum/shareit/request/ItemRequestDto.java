@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.shareit.item.ItemDto;
-import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserDto;
 
 import java.time.LocalDateTime;

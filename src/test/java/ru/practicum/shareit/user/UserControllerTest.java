@@ -51,12 +51,12 @@ public class UserControllerTest {
     }
 
     @Test
-    void updateWithException(){
+    void updateWithException() {
         assertThrows(NoSuchElementException.class, () -> userController.patch(12L, userDto));
     }
 
     @Test
-    void getWithException(){
+    void getWithException() {
         assertThrows(EntityNotFoundException.class, () -> userController.get(12L));
     }
 
