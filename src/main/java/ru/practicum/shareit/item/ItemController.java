@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -17,8 +18,10 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public List<ItemDto> getAll(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId) {
-        return itemService.getAll(userId);
+    public List<ItemDto> getAll(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId,
+                                @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero int from,
+                                @RequestParam(value = "size", required = false, defaultValue = "10") @Positive int size) {
+        return itemService.getAll(userId, from, size);
     }
 
     @GetMapping(path = "/{itemId}")
@@ -42,8 +45,10 @@ public class ItemController {
     }
 
     @GetMapping(path = "/search")
-    public List<ItemDto> search(@RequestParam(value = "text") String pattern) {
-        return itemService.find(pattern);
+    public List<ItemDto> search(@RequestParam(value = "text") String pattern,
+                                @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero int from,
+                                @RequestParam(value = "size", required = false, defaultValue = "10") @Positive int size) {
+        return itemService.find(pattern, from, size);
     }
 
     @PostMapping(path = "/{itemId}/comment")

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ItemControllerTest {
+public class ItemIntegrationTest {
 
     @Autowired
     private ItemController itemController;
@@ -99,7 +99,7 @@ public class ItemControllerTest {
     @Test
     void search() {
         create();
-        assertEquals(itemController.search("desc").get(0).getName(), itemDto.getName());
+        assertEquals(itemController.search("desc", 0, 10).get(0).getName(), itemDto.getName());
     }
 
     @Test

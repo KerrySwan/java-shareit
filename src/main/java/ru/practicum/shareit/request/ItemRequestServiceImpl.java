@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
 
@@ -19,7 +18,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     private final UserRepository userRepository;
     private final ItemRequestRepository itemRequestRepository;
-    private final ItemRepository itemRepository;
 
     Sort descSortByCreation = Sort.by(Sort.Direction.DESC, "created");
 

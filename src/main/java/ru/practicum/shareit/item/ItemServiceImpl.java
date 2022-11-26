@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -58,8 +59,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAll(long userId) {
-        List<Item> items = itemStorage.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<ItemDto> getAll(long userId, int from, int size) {
+        List<Item> items = itemStorage.findAll(PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id")))
+                .toList();
         return items.stream()
                 .filter(item -> item.getOwnerId() == userId)
                 .map(ItemMapper::toDto)
@@ -94,8 +96,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> find(String pattern) {
-        List<Item> items = itemStorage.findAllByNameOrByDesc(pattern);
+    public List<ItemDto> find(String pattern, int from, int size) {
+        List<Item> items = itemStorage.findAllByNameOrByDesc(pattern, PageRequest.of(from / size, size));
         return items.stream()
                 .map(ItemMapper::toDto)
                 .collect(Collectors.toList());

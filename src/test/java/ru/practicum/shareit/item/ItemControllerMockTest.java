@@ -46,7 +46,7 @@ public class ItemControllerMockTest {
 
     @Test
     void getAllItems() throws Exception {
-        Mockito.when(itemService.getAll(anyLong()))
+        Mockito.when(itemService.getAll(anyLong(), anyInt(), anyInt()))
                 .thenReturn(List.of(itemDto));
         mvc.perform(get("/items")
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -100,7 +100,7 @@ public class ItemControllerMockTest {
 
     @Test
     void searchItem() throws Exception {
-        Mockito.when(itemService.find(anyString()))
+        Mockito.when(itemService.find(anyString(), anyInt(), anyInt()))
                 .thenReturn(List.of(itemDto));
         mvc.perform(get("/items/search")
                         .param("text", "text")

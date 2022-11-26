@@ -24,7 +24,7 @@ import static ru.practicum.shareit.booking.BookingStatus.WAITING;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class BookingControllerTest {
+public class BookingIntegrationTest {
 
     @Autowired
     BookingController bookingController;
@@ -35,7 +35,7 @@ public class BookingControllerTest {
 
     private final User u1 = new User(1L, "name1", "user1@email.com");
     private final User u2 = new User(2L, "name2", "user2@email.com");
-    private final Item i = new Item(1L, "text", "desc", true, 1L, 1L);
+    private final Item i = new Item(1L, "text", "desc", true,  1L, 1L);
     private final Booking b = new Booking(
             1L,
             LocalDateTime.of(2023, 1, 1, 1, 1, 1),
