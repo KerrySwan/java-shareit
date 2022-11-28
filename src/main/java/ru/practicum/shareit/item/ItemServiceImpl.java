@@ -1,6 +1,8 @@
 package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,8 +59,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAll(long userId) {
-        List<Item> items = itemStorage.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<ItemDto> getAll(long userId, int from, int size) {
+        List<Item> items = itemStorage.findAll(PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id")))
+                .toList();
         return items.stream()
                 .filter(item -> item.getOwnerId() == userId)
                 .map(ItemMapper::toDto)
@@ -84,7 +87,7 @@ public class ItemServiceImpl implements ItemService {
                 return o1.getStart().isBefore(o2.getStart()) ? -1 : o1.getStart().isAfter(o2.getStart()) ? 1 : 0;
             }
         };
-        List<Booking> bookings = bookingStorage.findAllByItemId(itemDto.getId(), bookerId);
+        List<Booking> bookings = bookingStorage.findAllByItemId(itemDto.getId(), bookerId, Pageable.unpaged());
         bookings.sort(c);
         for (Booking booking : bookings) {
             itemDto.setNextBooking(BookingMapper.toDtoIdOnly(booking));
@@ -93,8 +96,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> find(String pattern) {
-        List<Item> items = itemStorage.findAllByNameOrByDesc(pattern);
+    public List<ItemDto> find(String pattern, int from, int size) {
+        List<Item> items = itemStorage.findAllByNameOrByDesc(pattern, PageRequest.of(from / size, size));
         return items.stream()
                 .map(ItemMapper::toDto)
                 .collect(Collectors.toList());
@@ -105,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
     public CommentDto addComment(long userId, long itemId, CommentDto commentDto) {
         User u = userStorage.findById(userId).orElseThrow();
         Item i = itemStorage.findById(itemId).orElseThrow();
-        List<Booking> bookings = bookingStorage.findAllByItemIdAndBookerId(itemId, userId, LocalDateTime.now());
+        List<Booking> bookings = bookingStorage.findAllByItemIdAndBookerId(itemId, userId, LocalDateTime.now(), Pageable.unpaged());
         if (bookings.isEmpty())
             throw new ItemIsAnavailableException("Item have not been booked by this user yet.");
         Comment comment = CommentMapper.toModel(commentDto);
