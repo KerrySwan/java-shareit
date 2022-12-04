@@ -1,10 +1,6 @@
 package ru.practicum.shareit.gateway.item;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
 
 @AllArgsConstructor
 public class Item {

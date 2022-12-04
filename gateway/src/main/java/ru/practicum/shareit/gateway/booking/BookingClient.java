@@ -34,10 +34,10 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> changeStatus(long userId, long bookingId, boolean isApproved) {
-        Map<String, Object> params = new HashMap<>(){{
+        Map<String, Object> params = new HashMap<>() {{
             put("isApproved", isApproved);
         }};
-        return patch("/" + bookingId + "?approved={isApproved}" , userId , params, null);
+        return patch("/" + bookingId + "?approved={isApproved}", userId, params, null);
     }
 
     public ResponseEntity<Object> getByUserIdAndBookingId(long userId, long bookingId) {
@@ -45,7 +45,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> findAllByUserId(long userId, int from, int size) {
-        Map<String, Object> params = new HashMap<>(){{
+        Map<String, Object> params = new HashMap<>() {{
             put("from", from);
             put("size", size);
         }};
@@ -53,7 +53,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> findAllByOwnerId(long ownerId, int from, int size) {
-        Map<String, Object> params = new HashMap<>(){{
+        Map<String, Object> params = new HashMap<>() {{
             put("from", from);
             put("size", size);
         }};
@@ -61,7 +61,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getUserIdAndByState(long userId, String state, int from, int size) {
-        Map<String, Object> params = new HashMap<>(){{
+        Map<String, Object> params = new HashMap<>() {{
             put("state", state);
             put("from", from);
             put("size", size);
@@ -70,7 +70,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getOwnerIdAndByState(long ownerId, String state, int from, int size) {
-        Map<String, Object> params = new HashMap<>(){{
+        Map<String, Object> params = new HashMap<>() {{
             put("state", state);
             put("from", from);
             put("size", size);

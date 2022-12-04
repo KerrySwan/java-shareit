@@ -8,7 +8,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -18,7 +17,7 @@ public class UserIntegrationTest {
     @Autowired
     private UserController userController;
 
-    private UserDto userDto = new UserDto(
+    private final UserDto userDto = new UserDto(
             1L,
             "name",
             "email@email.com"

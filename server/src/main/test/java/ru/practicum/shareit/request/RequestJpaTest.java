@@ -19,9 +19,9 @@ import java.util.List;
 @Import(PersistenceConfig.class)
 public class RequestJpaTest {
 
-    private UserRepository userRepository;
-    private ItemRepository itemRepository;
-    private ItemRequestRepository itemRequestRepository;
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
+    private final ItemRequestRepository itemRequestRepository;
 
     Sort descSortByCreation = Sort.by(Sort.Direction.DESC, "created");
 

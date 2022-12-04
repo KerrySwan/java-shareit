@@ -22,11 +22,11 @@ import static ru.practicum.shareit.booking.BookingStatus.APPROVED;
 @Import(PersistenceConfig.class)
 public class BookingJpaTest {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
     private final User u1 = new User(1L, "name1", "user1@email.com");
     private final User u2 = new User(2L, "name2", "user2@email.com");

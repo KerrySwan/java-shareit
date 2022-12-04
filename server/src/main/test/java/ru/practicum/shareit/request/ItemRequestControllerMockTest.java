@@ -35,9 +35,9 @@ public class ItemRequestControllerMockTest {
     @Autowired
     MockMvc mvc;
 
-    private User u = new User(1L, "name", "user@email.com");
-    private Item i = new Item(1L, "text", "desc", true, 1L, 1L);
-    private ItemRequestDto req = new ItemRequestDto(
+    private final User u = new User(1L, "name", "user@email.com");
+    private final Item i = new Item(1L, "text", "desc", true, 1L, 1L);
+    private final ItemRequestDto req = new ItemRequestDto(
             1L,
             "desc",
             UserMapper.toDto(u),

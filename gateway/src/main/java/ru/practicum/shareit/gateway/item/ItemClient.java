@@ -10,7 +10,6 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.gateway.client.BaseClient;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
@@ -28,37 +27,34 @@ public class ItemClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> addItem(long userId, ItemDto itemDto){
+    public ResponseEntity<Object> addItem(long userId, ItemDto itemDto) {
         return post("", userId, itemDto);
-    };
+    }
 
-    public ResponseEntity<Object> addComment(long userId, long itemId, CommentDto commentDto){
+    public ResponseEntity<Object> addComment(long userId, long itemId, CommentDto commentDto) {
         return post("/" + itemId + "/comment", userId, commentDto);
-    };
+    }
 
-    public ResponseEntity<Object> updateItem(long userId, ItemDto itemDto){
+    public ResponseEntity<Object> updateItem(long userId, ItemDto itemDto) {
         return patch("/" + itemDto.getId(), userId, itemDto);
-    };
+    }
 
-    public ResponseEntity<Object> getItem(long userid, long itemId){
+    public ResponseEntity<Object> getItem(long userid, long itemId) {
         return get("/" + itemId, userid);
-    };
+    }
 
-    public ResponseEntity<Object> getAll(long userId){
+    public ResponseEntity<Object> getAll(long userId) {
         return get("", userId);
-    };
+    }
 
-    public ResponseEntity<Object> find(String pattern, int from, int size){
-        Map<String, Object> params = new HashMap<>(){{
+    public ResponseEntity<Object> find(String pattern, int from, int size) {
+        Map<String, Object> params = new HashMap<>() {{
             put("text", pattern);
             put("from", from);
             put("size", size);
         }};
         return get("/search?text={text}&from={from}&size={size}", null, params);
-    };
-
-
-
+    }
 
 
 }

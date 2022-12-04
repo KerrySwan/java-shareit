@@ -30,7 +30,7 @@ public class ItemControllerMockTest {
     @Autowired
     MockMvc mvc;
 
-    private ItemDto itemDto = new ItemDto(
+    private final ItemDto itemDto = new ItemDto(
             1L,
             "name",
             "desc",
@@ -39,7 +39,7 @@ public class ItemControllerMockTest {
             1L
     );
 
-    private Comment comment = new Comment(
+    private final Comment comment = new Comment(
             1L,
             "text"
     );

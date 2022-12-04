@@ -15,8 +15,6 @@ import ru.practicum.shareit.user.UserMapper;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ItemRequestIntegrationTest {
@@ -28,10 +26,10 @@ public class ItemRequestIntegrationTest {
     @Autowired
     private UserController userController;
 
-    private User u1 = new User(1L, "name1", "user1@email.com");
-    private User u2 = new User(2L, "name2", "user2@email.com");
-    private Item i = new Item(1L, "text", "desc", true, 1L, 1L);
-    private ItemRequestDto req = new ItemRequestDto(
+    private final User u1 = new User(1L, "name1", "user1@email.com");
+    private final User u2 = new User(2L, "name2", "user2@email.com");
+    private final Item i = new Item(1L, "text", "desc", true, 1L, 1L);
+    private final ItemRequestDto req = new ItemRequestDto(
             1L,
             "desc",
             UserMapper.toDto(u1),

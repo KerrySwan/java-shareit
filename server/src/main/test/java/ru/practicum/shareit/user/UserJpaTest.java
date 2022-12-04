@@ -11,7 +11,7 @@ import ru.practicum.shareit.config.PersistenceConfig;
 @Import(PersistenceConfig.class)
 public class UserJpaTest {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private final User u = new User(1L, "name1", "user1@email.com");
 

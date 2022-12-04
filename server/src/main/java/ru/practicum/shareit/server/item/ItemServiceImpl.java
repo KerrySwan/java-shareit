@@ -6,13 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.server.booking.Booking;
 import ru.practicum.shareit.server.booking.BookingMapper;
 import ru.practicum.shareit.server.booking.BookingRepository;
 import ru.practicum.shareit.server.common.exception.DoesNotExistsException;
 import ru.practicum.shareit.server.common.exception.ItemIsAnavailableException;
 import ru.practicum.shareit.server.user.User;
 import ru.practicum.shareit.server.user.UserRepository;
-import ru.practicum.shareit.server.booking.Booking;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;

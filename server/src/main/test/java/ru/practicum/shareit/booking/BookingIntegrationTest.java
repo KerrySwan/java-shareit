@@ -17,7 +17,6 @@ import ru.practicum.shareit.user.UserMapper;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.practicum.shareit.booking.BookingStatus.APPROVED;
 import static ru.practicum.shareit.booking.BookingStatus.WAITING;
@@ -35,7 +34,7 @@ public class BookingIntegrationTest {
 
     private final User u1 = new User(1L, "name1", "user1@email.com");
     private final User u2 = new User(2L, "name2", "user2@email.com");
-    private final Item i = new Item(1L, "text", "desc", true,  1L, 1L);
+    private final Item i = new Item(1L, "text", "desc", true, 1L, 1L);
     private final Booking b = new Booking(
             1L,
             LocalDateTime.of(2023, 1, 1, 1, 1, 1),

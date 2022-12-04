@@ -18,7 +18,7 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return this.handleExceptionInternal(ex, (Object) null, headers, HttpStatus.BAD_REQUEST, request);
+        return this.handleExceptionInternal(ex, null, headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(AlreadyExistsException.class)

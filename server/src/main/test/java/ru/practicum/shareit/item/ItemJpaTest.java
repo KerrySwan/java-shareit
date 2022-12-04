@@ -16,9 +16,9 @@ import java.util.List;
 @Import(PersistenceConfig.class)
 public class ItemJpaTest {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     private final User u = new User(1L, "name1", "user1@email.com");
     private final Item i = new Item(1L, "L-ion King", "Tale about king battery", true, 1L, 1L);

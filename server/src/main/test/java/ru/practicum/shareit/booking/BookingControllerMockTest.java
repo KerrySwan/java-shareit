@@ -33,9 +33,9 @@ public class BookingControllerMockTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private User u = new User(1L, "name", "user@email.com");
-    private Item i = new Item(1L, "text", "desc", true, 1L, 1L);
-    private BookingDto bookingDto = new BookingDto(
+    private final User u = new User(1L, "name", "user@email.com");
+    private final Item i = new Item(1L, "text", "desc", true, 1L, 1L);
+    private final BookingDto bookingDto = new BookingDto(
             1L,
             LocalDateTime.of(2023, 1, 1, 1, 1, 1),
             LocalDateTime.of(2023, 3, 1, 1, 1, 1),

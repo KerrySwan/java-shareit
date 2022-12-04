@@ -36,11 +36,11 @@ public class ItemReqiestClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getAllAsPage(long userId, int from, int size) {
-        Map<String, Object> params = new HashMap<>(){{
+        Map<String, Object> params = new HashMap<>() {{
             put("from", from);
             put("size", size);
         }};
-        return get("/all", userId , params);
+        return get("/all", userId, params);
     }
 
     public ResponseEntity<Object> getByRequestId(long userId, long requestId) {

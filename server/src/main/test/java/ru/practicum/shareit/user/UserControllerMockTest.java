@@ -30,7 +30,7 @@ public class UserControllerMockTest {
     @Autowired
     private MockMvc mvc;
 
-    private UserDto userDto = new UserDto(
+    private final UserDto userDto = new UserDto(
             1L,
             "name",
             "email@email.com"

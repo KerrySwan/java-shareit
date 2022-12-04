@@ -12,7 +12,6 @@ import ru.practicum.shareit.user.UserDto;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -24,19 +23,19 @@ public class ItemIntegrationTest {
     @Autowired
     private UserController userController;
 
-    private UserDto userDto = new UserDto(
+    private final UserDto userDto = new UserDto(
             1L,
             "name",
             "email@email.com"
     );
 
-    private UserDto userDto2 = new UserDto(
+    private final UserDto userDto2 = new UserDto(
             2L,
             "name2",
             "email2@email.com"
     );
 
-    private ItemDto itemDto = new ItemDto(
+    private final ItemDto itemDto = new ItemDto(
             1L,
             "name",
             "desc",
@@ -45,7 +44,7 @@ public class ItemIntegrationTest {
             1L
     );
 
-    private CommentDto commentDto = new CommentDto(
+    private final CommentDto commentDto = new CommentDto(
             1L,
             "text",
             1L,
