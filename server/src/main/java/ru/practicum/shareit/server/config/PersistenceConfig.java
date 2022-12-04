@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "ru.practicum.shareit")
+@EnableJpaRepositories(basePackages = "ru.practicum.shareit.server")
 @PropertySource(value = "classpath:application.properties")
 public class PersistenceConfig {
     private final Environment environment;
@@ -29,6 +29,7 @@ public class PersistenceConfig {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("spring.jpa.hibernate.dialect"));
+        properties.put("hibernate.format_sql", environment.getRequiredProperty("spring.jpa.hibernate.format_sql"));
         properties.put("hibernate.show_sql", environment.getProperty("spring.jpa.hibernate.show_sql", "false"));
         properties.put("hibernate.ddl-auto", environment.getRequiredProperty("spring.jpa.hibernate.ddl-auto"));
         properties.put("javax.persistence.schema-generation.database.action",
