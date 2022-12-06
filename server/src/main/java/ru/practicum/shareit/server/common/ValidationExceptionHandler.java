@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import ru.practicum.shareit.server.common.exception.*;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
@@ -59,11 +58,6 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AccessException.class)
     protected ResponseEntity<?> handleNotFoundError(AccessException ex) {
-        return new ResponseEntity<>(new ErrorWrapper(ex.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<?> handleNotEmptyError(ConstraintViolationException ex) {
         return new ResponseEntity<>(new ErrorWrapper(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
