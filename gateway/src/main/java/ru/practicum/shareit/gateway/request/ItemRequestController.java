@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -18,7 +19,7 @@ public class ItemRequestController {
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestHeader(value = "X-Sharer-User-Id") @Positive long userId,
-                                      @RequestBody ItemRequestDto dto) {
+                                      @RequestBody @Valid ItemRequestDto dto) {
         return itemReqiestClient.add(userId, dto);
     }
 
